@@ -6,12 +6,12 @@ Find things to do today based on the weather.
 
 ### Running Locally:
 1. Get your Forecast.IO API Key [here](http://developers.forecast.io)
-2. Edit index.js
+2. Edit routes/index.js
 3. > npm start
 4. [http://localhost:3000/](http://localhost:3000/)
 
 ### Adding new conditions:
-index.js
+routes/index.js contains most of the logic
 
     var conditionChecks = [
         function() {

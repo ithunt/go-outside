@@ -124,6 +124,7 @@ var bearingToCompass = function( bearing ) {
 
 /* GET home page. */
 router.get('/', function(req, res) {
+    //todo: user input coordinates
    Forecast.get(42.1946, -71.0622, res);
 });
 
