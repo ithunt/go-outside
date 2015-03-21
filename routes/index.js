@@ -8,7 +8,6 @@ var FORECAST_IO_API_KEY = '';
 var Forecast = {
     URL : "https://api.forecast.io/forecast/" + FORECAST_IO_API_KEY + "/" ,
     get : function( lat, lng, result ) {
-
         https.get(Forecast.URL + lat + "," + lng, function(response) {
             var body = '';
 
@@ -18,7 +17,9 @@ var Forecast = {
 
             response.on('end', function() {
                 var weather = parseForecastIOtoWeather(JSON.parse(body));
-                result.render('index', //todo weather
+
+                //Render Jade template with these variables
+                result.render('index',
                     {
                         title: 'Weather',
                         conditions: weather,
@@ -26,15 +27,19 @@ var Forecast = {
                     }
                 );
             });
-
         }).on('error', function(error) {
                 console.log(error);
-            });
-
+        });
     }
 };
 
-getActivities = function( conditions ) {
+/**
+ * Provides plausible activities based on weather conditions checks
+ * The whole point of the app
+ * @param conditions weather conditions in go-outside format
+ * @returns {Array} Activity strings
+ */
+var getActivities = function( conditions ) {
     var activities = [];
     conditionChecks.forEach ( function( conditionCheck ) {
         var result = conditionCheck( conditions );
@@ -44,9 +49,6 @@ getActivities = function( conditions ) {
     } );
     return activities
 };
-
-//this is the whole point of the app
-// you can use something from the forecastIO app to group the conditions together
 
 var isSnowing = function( conditions ) {
     switch( conditions.icon ) {
@@ -58,6 +60,8 @@ var isSnowing = function( conditions ) {
     }
     return false;
 }
+
+
 var conditionChecks = [
     function() {
         //You can always go outside
@@ -90,6 +94,11 @@ var conditionChecks = [
     }
 ];
 
+/**
+ * Provides internal (flatter) representation of weather conditions
+ * @param forecastIO weather condition JSON
+ * @returns weather conditions rounded
+ */
 var parseForecastIOtoWeather = function( conditions ) {
     return {
         summary 	: conditions.currently.summary,
