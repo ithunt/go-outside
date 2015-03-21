@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  img(src="/images/weather/#{conditions.icon}.png")
+  h1= conditions.summary
+  p Currently #{conditions.temperature} degrees. Feels like #{conditions.feelsLike}
+  p= conditions.hourSummary
+  p Winds #{conditions.windSpeed} knots from the #{conditions.windDirection} (#{conditions.windBearing})
+  h3 You could:
+  each activity in activities
+    p= activity
